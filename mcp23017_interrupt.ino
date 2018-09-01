@@ -3,15 +3,14 @@
 
 Adafruit_MCP23017 mcp;
 
-int ledPin=2;
-int intPin=0;
-int keyA=0;
-int keyB=1;
-int keyC=2;
-bool state = LOW;
-int pulseCount = 0;
-uint8_t pin;
-uint8_t val;
+int ledPin=2; // WEMOS port for LED default is on
+int intPin=0; // WEMOS port for Interrupt detect
+int keyA=0;   // MCP port Number 0-15 for A0-B7
+int keyB=1;   // MCP
+int keyC=2;   // MCP
+int pulseCount = 0; // WEMOS Interrupt Counter 
+uint8_t pin;  //  handing
+uint8_t val;  //  handing
 
 void setup() {
   Serial.begin(115200);
@@ -23,9 +22,9 @@ void setup() {
   pinMode(intPin,INPUT);
   pinMode(ledPin, OUTPUT);
 
-  attachInterrupt(digitalPinToInterrupt(intPin), pulsecounter, FALLING);
+  attachInterrupt(digitalPinToInterrupt(intPin), pulsecounter, FALLING); // start wemos interrupt
 
-  mcp.begin(0);
+  mcp.begin(0); //0 or empty is default Adress 
 
   mcp.setupInterrupts(true,true,LOW);
   mcp.pinMode(keyA, INPUT);
@@ -53,22 +52,22 @@ void activekey() {
   if (pulseCount >= 1) {
     Serial.print("detect, key pressed. Pulse is : ");
     Serial.println(pulseCount);
-    detachInterrupt(digitalPinToInterrupt(intPin));
+    detachInterrupt(digitalPinToInterrupt(intPin)); //stop wemos interrupt
     pulseCount = 0;
-    pin=mcp.getLastInterruptPin();
-    val=mcp.getLastInterruptPinValue();
+    pin=mcp.getLastInterruptPin(); // i2c 
+    val=mcp.getLastInterruptPinValue(); // and is reset interrupt on mcp
     while( ! (mcp.digitalRead(keyA) && mcp.digitalRead(keyB) && mcp.digitalRead(keyC) ) ) {
       Serial.println("wait, to unlook key");
       delay(500);
     };
     Serial.print("Port : ");
-    Serial.print(pin);
+    Serial.print(pin); // print Portnumber 0-15 for A0-B7
     Serial.print(" Value is : ");
-    Serial.print(val);
-    Serial.print(" .");
-    pin = 222;
+    Serial.print(val); // print 0 or 1 for low or high on port, 255 = register empty
+    Serial.println(" .");
+    pin = 222; // error
     val = 222;
-    attachInterrupt(digitalPinToInterrupt(intPin), pulsecounter, FALLING);
+    attachInterrupt(digitalPinToInterrupt(intPin), pulsecounter, FALLING); // start wemos interrupt
   }
 }
 
