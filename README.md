@@ -7,7 +7,7 @@ intA  -> d3 | is it with intern pullup 10k 3,3V
 reset -> reset is it with intern pullup or 10k pullup 3,3V and C2  
 VDD | 3,3V and C1  
 VSS | GND and C1, C2  
-A1-A3 -> GND  
+A0-A2 -> GND default Adress  
 portA0-2 -> KeyA-C -> GND  
 C1 C2 = keramic ~700pF ~x7r or x5r or ...   
 
