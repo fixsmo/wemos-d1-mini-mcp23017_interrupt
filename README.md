@@ -4,7 +4,7 @@ mcp   - wemos
 scl   -> d1 | pullup 2k  
 sda   -> d2 | pullup 2k  
 intA  -> d3 | is it with intern pullup 10k 3,3V  
-reset -> reset | 10k pullup 3,3V and C2  
+reset -> reset is it with intern pullup or 10k pullup 3,3V and C2  
 VDD | 3,3V and C1  
 VSS | GND and C1, C2  
 A1-A3 -> GND  
